@@ -14,21 +14,20 @@ class LeagueVC: UIViewController {
  
     @IBOutlet weak var nextBtn: BorderButton!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        print("LeagueVC ready to set the Player")
         player = Player()
-        
     }
 
     @IBAction func onNextTapped(_ sender: Any) {
         performSegue(withIdentifier: "skillVCSegue", sender: self)
-        nextBtn.isEnabled = true
+        
     }
 
     func selectLeague(leagueType: String) {
         player.desiredLeague = leagueType
+        nextBtn.isEnabled = true
     }
 
     @IBAction func onMensTapped(_ sender: Any) {
@@ -41,6 +40,16 @@ class LeagueVC: UIViewController {
     
     @IBAction func onCoedTapped(_ sender: Any) {
         selectLeague(leagueType:  "coed")
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let skillVC = segue.destination as? SkillVC {
+            // pass data to another VC
+            skillVC.player = player
+            
+        } else {
+            print("LVC: Could not segue to SVC" )
+        }
     }
     
 }
